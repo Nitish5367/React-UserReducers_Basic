@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+import {useReducer} from 'react'
+let App=()=>{
+  let [state,dispatch]=useReducer((state,action)=>{
+    if(action.type=="data"){
+      return{...state,"data":action.payload}
+    }
+    else{
+      return{"arr":[...state.arr,state.data],"data":""}
+    }
+  },{"data":"","arr":[]})
+  return(
+    <div>
+      <input type='text' onChange={(e)=>dispatch({"type":"data","payload":e.target.value})}
+      value={state.data}/>
+      <button onClick={()=>dispatch({"action":"arr"})}>Add</button>
+      <div>
+        {
+          state.arr.map((item)=><li>{item}</li>)
+        }
+      </div>
     </div>
-  );
+  )
 }
-
-export default App;
+export default App
